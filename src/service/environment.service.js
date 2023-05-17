@@ -5,9 +5,14 @@ async function getAllData() {
     return data;
 }; 
 
-async function getById(id){
-    const data = await getById(id);
+async function getDataById(id){
+    const data = await getDataById(id);
     return data;
-}
+};
 
-module.exports = { getAllData };
+async function createDB(label, category, priority){
+const data = await createDB(label, category, priority);
+return data;
+};
+
+module.exports = { getAllData, getDataById, createDB };
