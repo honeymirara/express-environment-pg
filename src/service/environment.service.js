@@ -1,4 +1,4 @@
-const getAllDataDB = require('../repository/environment.repository');
+const {getAllDataDB, getDataByIdDB, createDB, updateDB, deleteData} = require('../repository/environment.repository');
 
 async function getAllData() {
     const data = await getAllDataDB()
@@ -6,13 +6,20 @@ async function getAllData() {
 }; 
 
 async function getDataById(id){
-    const data = await getDataById(id);
+    const data = await getDataByIdDB(id);
     return data;
 };
 
-async function createDB(label, category, priority){
+async function create(label, category, priority){
 const data = await createDB(label, category, priority);
 return data;
 };
 
-module.exports = { getAllData, getDataById, createDB };
+
+
+async function deleteById(id){
+    const data = await deleteData(id);
+    return data;
+}
+
+module.exports = { getAllData, getDataById, create, update, deleteById };

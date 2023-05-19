@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllData } = require('../service/environment.service');
+const { getAllData, getDataById, create, update, deleteById } = require('../service/environment.service');
 
 let route = express.Router();
 
@@ -11,11 +11,34 @@ route.get('/', async (req, res) => {
 route.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const data = await getById(id);
+        const data = await getDataById(id);
         res.status(200).send(data);
     } catch (err) {
-        res.status(404).send(data);
+        res.send(err.message);
     }
+});
+
+route.post('/', async (req, res) => {
+    try {
+        const { label, category, priority } = req.body;
+        const data = await create(label, category, priority);
+        res.status(200).send(data);
+    } catch (err) {
+        res.send(err.message);
+    }
+});
+
+
+
+route.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await deleteById(id);
+        res.status(200).send(data);
+    } catch (err) {
+        res.send(err.message);
+    }
+
 });
 
 
