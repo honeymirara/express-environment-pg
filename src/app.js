@@ -8,5 +8,6 @@ app.use(bodyParser.json());
 
 app.use('/environment', route);
 
+app.use((err, req, res, next) => res.send(err.message));
 
 module.exports = app;

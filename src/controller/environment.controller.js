@@ -1,5 +1,7 @@
 const express = require("express");
+const { isValidEnvironmentId, isValidBody } = require('../helper/validation');
 const { getAllData, getDataById, create, update, deleteById } = require('../service/environment.service');
+const { buildResponse } = require("../helper/buildResponse");
 
 let route = express.Router();
 
@@ -8,38 +10,38 @@ route.get('/', async (req, res) => {
     res.send(data);
 });
 
-route.get('/:id', async (req, res) => {
+route.get('/:id', isValidEnvironmentId, async (req, res) => {
     try {
         const { id } = req.params;
         const data = await getDataById(id);
-        res.status(200).send(data);
+        buildResponse(res, 200, data);
     } catch (err) {
-        res.send(err.message);
+        buildResponse(res, 404, err.message);
     }
 });
 
-route.post('/', async (req, res) => {
+route.post('/', isValidEnvironmentId, isValidBody, async (req, res) => {
     try {
         const { label, category, priority } = req.body;
         const data = await create(label, category, priority);
-        res.status(200).send(data);
+        buildResponse(res, 200, data);
     } catch (err) {
-        res.send(err.message);
+        buildResponse(res, 404, err.message);
     }
 });
 
-
-
-route.delete('/:id', async (req, res) => {
+route.put('/:id', isValidEnvironmentId, isValidBody, async (req, res) => {
     try {
         const { id } = req.params;
-        const data = await deleteById(id);
-        res.status(200).send(data);
+        const { label, category, priority } = req.body;
+        const data = await update(label, category, priority, id);
+        buildResponse(res, 200, data);
     } catch (err) {
-        res.send(err.message);
+        buildResponse(res, 404, err.message);
     }
+})
 
-});
+
 
 
 

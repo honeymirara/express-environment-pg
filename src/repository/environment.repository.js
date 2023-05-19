@@ -25,9 +25,11 @@ async function createDB(label, category, priority) {
 };
 
 
-async function updateDB(label, category, priority, id){
+async function updateDB(label, category, priority, id) {
     const client = await pool.connect();
-    const sql = `UPDATE environment SET `
+    const sql = `UPDATE environment SET label = $1, category = $2, priority = $3 WHERE id = $4 returning *`;
+    const result = (await client.query(sql, [label, category, priority, id])).rows;
+    return result;
 }
 
 async function deleteData(id) {
@@ -38,4 +40,4 @@ async function deleteData(id) {
 };
 
 
-module.exports = { getAllDataDB, getDataByIdDB, createDB, updateDB, deleteData}
+module.exports = { getAllDataDB, getDataByIdDB, createDB, updateDB, deleteData }
