@@ -39,7 +39,18 @@ route.put('/:id', isValidEnvironmentId, isValidBody, async (req, res) => {
     } catch (err) {
         buildResponse(res, 404, err.message);
     }
-})
+});
+
+route.delete('/:id', isValidEnvironmentId, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await deleteById(id);
+        buildResponse(res, 200, data);
+    } catch (err) {
+        buildResponse(res, 404, err.message);
+    }
+
+});
 
 
 
